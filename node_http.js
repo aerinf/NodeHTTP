@@ -14,3 +14,6 @@ const server = http.createServer((req,res)=> {
 })
 server.listen(3000);
 console.log("Listening on port 3000...");
+//The server responds to my requests by changing its display
+//I see Hello world This is our first server at root
+//At /api/courses I see [1,2,3] This is a list of offerings  at BTHS
