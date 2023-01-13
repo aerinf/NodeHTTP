@@ -1,5 +1,6 @@
 const express = require('express');
 const app = express();
+app.use(express.json());
 app.get('/', (req,res)=>{
     res.send('Hello there');
 });
@@ -19,6 +20,47 @@ app.get('/api/courses/:id', (req,res)=>{
     }
     res.send(course);
 })
+//HTTP POST REQUESTS
+app.post('/api/courses', (req,res) => {
+        const course ={
+            //we assign an ID and a name property
+            id: courses.length +1,
+            name:req.body.name
+        }
+        if (course.name.length>=3) {
+
+        //next step: push it to the array
+        courses.push(course);
+        //next step: the server should return the new resource to the client in the body of the response 
+        }
+        res.status(200).send(course);
+});
+//HTTP PUT REQUESTS
+app.put('/api/courses/:id', (req,res)=>{
+    //Write the code in order to look up the course, if not existing return a 404
+    const course = courses.find(c=>c.id === parseInt(req.params.id));
+    if(!course){
+        res.status(404).send("The course with the given ID was not found");
+        return
+    }
+    else {
+        course["name"] = req.body.name;
+        res.status(200).send(course);
+    }
+});
+//HTTP GET REQUESTS
+app.delete('/api/courses/:id', (req,res)=>{
+    const course = courses.find(c=>c.id === parseInt(req.params.id));
+    if(!course){
+        res.status(404).send("The course with the given ID was not found");
+        return
+    }
+    else {
+        courses.splice(courses.indexOf(course));
+        res.status(200).send("Course was deleted.");
+    }
+});
+
 app.listen(3000, ()=> {
     console.log('Listening on port 3000 ...')
 })
